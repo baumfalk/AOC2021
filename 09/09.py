@@ -112,6 +112,16 @@ def part2(input):
     answer = total
     return answer
 
+def part2_onepass(input):
+    int_list = np.array(list(map(lambda line: list(map(int, list(line))), input)))
+    
+    basins = {}
+    loc_to_basin = {}
+    
+    
+    for y in range(int_list.shape[0]):
+        for x in range(int_list.shape[0]):
+            value = int_list[y,x]
 
 run_program("test_input.txt")
 run_program("input.txt")
