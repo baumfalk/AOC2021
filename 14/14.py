@@ -50,28 +50,31 @@ def part2(input):
     pair_counter = Counter()
     for index in range(len(cur_string)-1):
         pair_counter[cur_string[index:index+2]] +=1
-    
+    letter_counter = Counter()
+    for letter in cur_string:
+        letter_counter[letter] += 1
     for i in range(40):
         #print(i, pair_counter)
         new_pair_counter = Counter()
         for pair in pair_counter:
             num_occurrences = pair_counter[pair]
             if num_occurrences == 0:continue
-
+            letter = rules_dict[pair]
+            letter_counter[letter] += num_occurrences
             #new_pair_counter[pair] = 0
             new_pairs = rules_dict2[pair]
             for new_pair in new_pairs:
                 new_pair_counter[new_pair] += num_occurrences
         pair_counter = new_pair_counter
     
-    letter_counter = Counter()
-    for pair in pair_counter:
-        num_occurrences = pair_counter[pair]
-        first_letter,second_letter = list(pair)
-        letter_counter[first_letter] += num_occurrences
-        letter_counter[second_letter] += num_occurrences
-    answer = (max(letter_counter.values())- min(letter_counter.values()))/2
-    return np.ceil(answer), np.floor(answer)
+    #letter_counter = Counter()
+    # for pair in pair_counter:
+    #     num_occurrences = pair_counter[pair]
+    #     first_letter,second_letter = list(pair)
+    #     letter_counter[first_letter] += num_occurrences
+    #     letter_counter[second_letter] += num_occurrences
+    answer = (max(letter_counter.values())- min(letter_counter.values()))#/2
+    return answer
 
 
 run_program("test_input.txt")
