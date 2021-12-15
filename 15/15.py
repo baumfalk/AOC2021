@@ -60,17 +60,16 @@ def extend_grid(grid):
 
 def extend_grid2(grid):
     og_grid = grid.copy()
-    for i in range(1,5):
-        addendum = og_grid+i
-        addendum[addendum>9] = addendum[addendum>9] - 9
+    for _ in range(4):
+        og_grid = og_grid+1
+        og_grid[og_grid>9] = 1
 
-        grid = np.concatenate((grid, addendum))
+        grid = np.concatenate((grid, og_grid))
     og_grid = grid.copy()
-    for i in range(1,5):
-        addendum = og_grid+i
-        addendum[addendum>9] = addendum[addendum>9] - 9
-
-        grid = np.concatenate((grid, addendum), axis=1)
+    for _ in range(4):
+        og_grid = og_grid+1
+        og_grid[og_grid>9] = 1
+        grid = np.concatenate((grid, og_grid), axis=1)
    
     return grid
 
