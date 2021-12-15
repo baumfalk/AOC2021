@@ -27,20 +27,16 @@ def neighbors_of_cell(pos, height, width):
 def part1(input):
     grid = np.genfromtxt(input, delimiter=1).astype(int)
     height, width = grid.shape
-    G = nx.DiGraph()
-    for y in range(grid.shape[0]):
-        for x in range(grid.shape[1]):
-            pos = y,x
-            neighbors_indices = neighbors_of_cell(pos, height, width)
-            for n_y,n_x in neighbors_indices:
-                neighbor_val = grid[n_y,n_x]
-                G.add_edge((y,x), (n_y,n_x), weight = neighbor_val)
+    G = nx.grid_2d_graph(*grid.shape, create_using=nx.DiGraph)
+    for _, v, d in G.edges(data=True):
+        d["weight"] = grid[v]
+   
     start_pos = (0,0)
     end_pos = (height-1, width-1)
-    shortest_path = nx.shortest_path(G, start_pos, end_pos, "weight")
-    shortest_path = shortest_path[1:]
-    total_weight = sum(grid[y,x] for y,x in shortest_path)
-    answer = total_weight
+
+    length = nx.shortest_path_length(G, start_pos, end_pos, weight='weight')
+
+    answer = length
     return answer
 
 def extend_grid(grid):
@@ -80,20 +76,14 @@ def part2(input):
     grid = extend_grid(grid)
     grid = extend_grid2(np.genfromtxt(input, delimiter=1).astype(int))
     height, width = grid.shape
-    G = nx.DiGraph()
-    for y in range(grid.shape[0]):
-        for x in range(grid.shape[1]):
-            pos = y,x
-            neighbors_indices = neighbors_of_cell(pos, height, width)
-            for n_y,n_x in neighbors_indices:
-                neighbor_val = grid[n_y,n_x]
-                G.add_edge((y,x), (n_y,n_x), weight = neighbor_val)
+    G = nx.grid_2d_graph(*grid.shape, create_using=nx.DiGraph)
+    for _, v, d in G.edges(data=True):
+        d["weight"] = grid[v]
+        
     start_pos = (0,0)
     end_pos = (height-1, width-1)
-    shortest_path = nx.shortest_path(G, start_pos, end_pos, "weight")
-    shortest_path = shortest_path[1:]
-    total_weight = sum(grid[y,x] for y,x in shortest_path)
-    answer = total_weight
+    length = nx.shortest_path_length(G, start_pos, end_pos, weight='weight')
+    answer = length
     return answer
 
 
